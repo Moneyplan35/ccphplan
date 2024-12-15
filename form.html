@@ -28,24 +28,28 @@
   </form>
 
   <script>
-    const scriptURL = "1wez4A0i7mCkX8Pf45GANGPgf3IJ1QS0z794c9Tph0IQ"; // URL จาก Apps Script
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyzSP3jDV-dYi8O6NC8c1RzvEJNubzVgnjafsRc0WYPXfObTX2Qa8FIYtL_wl536QNzdQ/exec"; // URL จาก Apps Script
+    
     function submitData() {
       const form = document.getElementById('dataForm');
       const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => (data[key] = value));
-      
+
       fetch(scriptURL, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       })
-        .then(response => response.json())
-        .then(data => {
-          alert("Data submitted successfully!");
-          form.reset();
+        .then(response => {
+          if (response.ok) {
+            alert("Data submitted successfully!");
+            form.reset();
+          } else {
+            alert("Failed to submit data.");
+          }
         })
-        .catch(error => alert("Error: " + error));
+        .catch(error => alert("Error: " + error.message));
     }
   </script>
 </body>
