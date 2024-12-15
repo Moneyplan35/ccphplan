@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { max-width: 400px; margin: auto; }
+    input { display: block; margin: 10px 0; padding: 10px; width: 100%; }
+    button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Submit Your Data</h1>
+  <form id="dataForm">
+    <input type="text" name="field1" placeholder="Field 1" required>
+    <input type="text" name="field2" placeholder="Field 2" required>
+    <input type="text" name="field3" placeholder="Field 3" required>
+    <input type="text" name="field4" placeholder="Field 4" required>
+    <input type="text" name="field5" placeholder="Field 5" required>
+    <input type="text" name="field6" placeholder="Field 6" required>
+    <input type="text" name="field7" placeholder="Field 7" required>
+    <input type="text" name="field8" placeholder="Field 8" required>
+    <input type="text" name="field9" placeholder="Field 9" required>
+    <input type="text" name="field10" placeholder="Field 10" required>
+    <button type="button" onclick="submitData()">Submit</button>
+  </form>
+
+  <script>
+    const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_URL"; // URL จาก Apps Script
+    function submitData() {
+      const form = document.getElementById('dataForm');
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => (data[key] = value));
+      
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert("Data submitted successfully!");
+          form.reset();
+        })
+        .catch(error => alert("Error: " + error));
+    }
+  </script>
+</body>
+</html>
